@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Create/Edit Tweet
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-warning text-white text-center">
+                    <h2>{% if form.instance.pk %}Edit Tweet{% else %}Create Tweet{% endif %}</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data" class="form" id="tweetForm">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ form.as_p }}
+                        </div>
+                        <button class="btn btn-warning w-100" type="submit">Submit</button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{% url 'tweet_list' %}" class="btn btn-secondary">Back to tweet list</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Form Validation -->
+<script>
+    document.getElementById('tweetForm').addEventListener('submit', function (event) {
+        let textField = document.querySelector('[name="text"]');  // Change "text" to the actual field name
+        if (!textField.value.trim()) {
+            event.preventDefault();
+            alert("Tweet content cannot be empty!");
+        }
+    });
+</script>
+
+<!-- Custom CSS -->
+<style>
+    .card {
+        border-radius: 15px;
+    }
+
+    .card-header {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .btn-warning {
+        font-size: 1.2rem;
+    }
+
+    .container {
+        max-width: 800px;
+    }
+</style>
+{% endblock %}

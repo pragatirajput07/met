@@ -1,0 +1,100 @@
+
+
+{% block content %}
+    <style>
+        /* Styling for the search results page */
+        .search-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        h2 {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Tweet card container */
+        .tweet-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        /* Individual tweet card */
+        .card {
+            background-color: #222;
+            color: white;
+            width: 400px;  /* Smaller width */
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 2px 2px 8px rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        /* Tweet Image - Small, fits well */
+        .search-result-img {
+            width: 100%;
+            height: 200px; /* Smaller height */
+            object-fit: contain; /* Ensures full image is visible */
+            border-radius: 8px;
+        }
+
+        /* Username and tweet text */
+        .username {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .tweet-text {
+            font-size: 14px;
+            color: #ddd;
+        }
+
+        /* Back to Home button */
+        .btn-back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: 0.3s ease-in-out;
+        }
+
+        .btn-back:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <div class="search-container">
+        <h2>Search Results for "{{ query }}"</h2>
+
+        {% if tweets %}
+            <div class="tweet-container">
+                {% for tweet in tweets %}
+                    <div class="card">
+                        {% if tweet.photo %}
+                            <img src="{{ tweet.photo.url }}" alt="Tweet Image" class="search-result-img">
+                        {% endif %}
+                        <h3 class="username">{{ tweet.user.username }}</h3>
+                        <p class="tweet-text">{{ tweet.text }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No tweets found.</p>
+        {% endif %}
+
+        <a href="{% url 'tweet_list' %}" class="btn-back">Back to Home</a>
+    </div>
+{% endblock %}
